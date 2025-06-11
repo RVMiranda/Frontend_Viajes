@@ -1,0 +1,76 @@
+/* DashboardUsuario.css */
+
+.du-container {
+  padding: 2rem;
+  background: var(--color-bg);
+  min-height: 100vh;
+  color: var(--color-text);
+}
+
+.du-filtros {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.du-filtros select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: none;
+  background: var(--color-input-bg);
+  color: var(--color-text);
+}
+
+.du-mensaje {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: #4ade80;
+  color: #0f2f3f;
+  border-radius: 4px;
+}
+
+.du-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.du-card {
+  background: var(--color-panel);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.du-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.du-actions input,
+.du-actions select {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: none;
+  background: var(--color-input-bg);
+  color: var(--color-text);
+}
+
+.du-actions button {
+  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.du-actions button:hover {
+  opacity: 0.9;
+}

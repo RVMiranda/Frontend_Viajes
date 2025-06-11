@@ -13,6 +13,7 @@ import EstadoViaje from './pages/Administrador/EstadoViaje.jsx';
 import Pasajero from './pages/Administrador/Pasajero.jsx';
 import Pasajes from './pages/Administrador/Pasajes.jsx';
 import Restablecer from './pages/Auth/Restablecer.jsx';
+import DashboardUsuario from './pages/Usuario/Dashboard.jsx';
 
 export default function AppRouter() {
     return (
@@ -36,6 +37,9 @@ export default function AppRouter() {
             <Route path="pasajes" element={<Pasajes />} />
             {/* <Route path="metodopago" element={<MetodoPago />} />
             <Route path="estatuspasaje" element={<EstatusPasaje />} /> */}
+            {/* Rutas de usuario */}
+            <Route path="usuario/dashboard" element={<DashboardUsuario />} />
+            {/* Puedes añadir más rutas de usuario aquí */}
           </Route>
 
       {/* Fallback */}

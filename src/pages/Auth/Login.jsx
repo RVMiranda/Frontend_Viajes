@@ -25,12 +25,28 @@ export default function Login() {
       localStorage.setItem('token', token)
 
       // 2) Lo ponemos por defecto en los headers de axios para futuras peticiones
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+      axios.defaults.headers.common['Authorization'] = `Token ${token}`
 
       // 3) (Opcional) si tienes un contexto de usuario podrías notificar el login aquí
-
+      const lookup = await axios.get(
+        `http://localhost:8001/api/usuarios/lookup/?nombre_usuario=${encodeURIComponent(usuario)}`
+      )
+      const user = lookup.data
+      localStorage.setItem('user', JSON.stringify(user))
       // 4) Redirigimos al dashboard u otra ruta protegida
-      navigate('/dashboard')
+      switch (user.rol.nombre) {
+        case 'Usuario':
+          navigate('/usuario/dashboard')
+          break
+        case 'Agente':
+          navigate('/agente/dashboard')
+          break
+        case 'Administrador':
+          navigate('/dashboard')
+          break
+        default:
+          navigate('/login')
+      }  
     } catch (err) {
       console.error(err)
       setError(err.response?.data?.detail || 'Usuario o contraseña incorrectos')
