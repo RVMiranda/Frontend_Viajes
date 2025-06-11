@@ -43,7 +43,7 @@ export default function Login() {
       <div className="login-panel signup-panel">
         <h2>¿No tienes cuenta?</h2>
         <p>Regístrate para empezar a viajar</p>
-        <button onClick={() => navigate('/register')}>
+        <button onClick={() => navigate('/registrarse')}>
           Sign Up
         </button>
       </div>
