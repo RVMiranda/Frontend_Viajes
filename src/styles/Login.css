@@ -121,6 +121,7 @@ html, body, #root {
     color: var(--color-accent);
     font-size: 0.85rem;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .aux-links a:hover {

@@ -73,7 +73,7 @@ export default function Login() {
           />
 
           <div className="aux-links">
-            <a href="/forgot">¿Olvidaste tu contraseña?</a>
+            <a onClick={() => navigate('/restablecer')}> ¿Olvidaste tu contraseña?</a>
           </div>
 
           <button type="submit" className="btn-submit">

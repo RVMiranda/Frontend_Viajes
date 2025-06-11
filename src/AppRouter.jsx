@@ -12,6 +12,7 @@ import TipoTransporte from './pages/Administrador/TiposTransporte.jsx';
 import EstadoViaje from './pages/Administrador/EstadoViaje.jsx';
 import Pasajero from './pages/Administrador/Pasajero.jsx';
 import Pasajes from './pages/Administrador/Pasajes.jsx';
+import Restablecer from './pages/Auth/Restablecer.jsx';
 
 export default function AppRouter() {
     return (
@@ -19,6 +20,7 @@ export default function AppRouter() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/registrarse" element={<Register />} />
+          <Route path="/restablecer" element={<Restablecer />} />
           {/* Redirige a login si no hay token */}
           <Route path="/" element={<Layout />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
