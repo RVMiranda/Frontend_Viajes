@@ -1,17 +1,17 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import Login from './pages/Login.jsx';
-import Register from './pages/Registrarse.jsx';
-import Dashboard from './pages/Dashboard.jsx';
+import Login from './pages/Auth/Login.jsx';
+import Register from './pages/Auth/Registrarse.jsx';
+import Dashboard from './pages/Administrador/Dashboard.jsx';
 import Layout from './components/Layout.jsx';
-import Usuarios from './pages/Usuarios.jsx';
-import Viajes from './pages/Viajes.jsx';
-import Destinos from './pages/Destinos.jsx';
-import Vehiculos from './pages/Vehiculos.jsx';
-import Rol from './pages/Rol.jsx';
-import TipoTransporte from './pages/TiposTransporte.jsx';
-import EstadoViaje from './pages/EstadoViaje.jsx';
-import Pasajero from './pages/Pasajero.jsx';
-import Pasajes from './pages/Pasajes.jsx';
+import Usuarios from './pages/Administrador/Usuarios.jsx';
+import Viajes from './pages/Administrador/Viajes.jsx';
+import Destinos from './pages/Administrador/Destinos.jsx';
+import Vehiculos from './pages/Administrador/Vehiculos.jsx';
+import Rol from './pages/Administrador/Rol.jsx';
+import TipoTransporte from './pages/Administrador/TiposTransporte.jsx';
+import EstadoViaje from './pages/Administrador/EstadoViaje.jsx';
+import Pasajero from './pages/Administrador/Pasajero.jsx';
+import Pasajes from './pages/Administrador/Pasajes.jsx';
 
 export default function AppRouter() {
     return (

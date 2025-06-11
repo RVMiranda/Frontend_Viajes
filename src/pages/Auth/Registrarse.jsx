@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import client from '../api/axiosClient'
-import '../styles/Registrarse.css'
+import client from '../../api/axiosClient'
+import '../../styles/Registrarse.css'
 
 export default function Register() {
     const [usuario, setUsuario] = useState('')

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import client from '../api/axiosClient'
+import client from '../../api/axiosClient'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid
 } from 'recharts'
-import '../styles/Dashboard.css'
+import '../../styles/Dashboard.css'
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
