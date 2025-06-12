@@ -16,7 +16,7 @@ export default function Sidebar() {
     { to: '/rol',            label: 'Roles',           allowedRoles: ['Administrador'] },
     { to: '/tipotransporte', label: 'Tipos Transporte', allowedRoles: ['Administrador'] },
     { to: '/estadoviaje',    label: 'Estado Viaje',    allowedRoles: ['Administrador'] },
-    { to: '/pasajero',       label: 'Pasajeros',       allowedRoles: ['Administrador','Agente'] },
+    { to: '/pasajeros',       label: 'Pasajeros',       allowedRoles: ['Administrador','Agente'] },
     { to: '/pasajes',        label: 'Pasajes',         allowedRoles: ['Administrador','Agente'] },
     // DashboardUsuario dentro de /usuario/dashboard:
     { to: '/usuario/dashboard', label: 'Comprar Viaje', allowedRoles: ['Usuario'] },

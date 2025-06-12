@@ -13,7 +13,9 @@ import RolForm from './components/RolForm.jsx';
 import EstadoViaje from './pages/Administrador/EstadoViaje.jsx';
 import EstadoViajeForm from './components/EstadoViajeForm.jsx';
 import Pasajero from './pages/Administrador/Pasajero.jsx';
+import PasajeroForm from './components/PasajeroForm.jsx';
 import Pasajes from './pages/Administrador/Pasajes.jsx';
+import PasajeForm from './components/PasajeForm.jsx';
 import Restablecer from './pages/Auth/Restablecer.jsx';
 import ViajeForm from './components/ViajeForm.jsx';
 import DashboardUsuario from './pages/Usuario/Dashboard.jsx';
@@ -71,8 +73,16 @@ export default function AppRouter() {
               <Route path="form/:id" element={<EstadoViajeForm />} />
             </Route>
 
-            <Route path="pasajero" element={<Pasajero />} />
-            <Route path="pasajes" element={<Pasajes />} />
+            <Route path="pasajeros" element={<Pasajero />}>
+              <Route path="form" element={<PasajeroForm />} />
+              <Route path="form/:id" element={<PasajeroForm />} />
+            </Route>
+
+            <Route path="pasajes" element={<Pasajes />}>
+              <Route path="form" element={<PasajeForm />} />
+              <Route path="form/:id" element={<PasajeForm />} />
+            </Route>
+
             {/* <Route path="metodopago" element={<MetodoPago />} />
             <Route path="estatuspasaje" element={<EstatusPasaje />} /> */}
 
