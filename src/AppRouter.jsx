@@ -23,6 +23,7 @@ import DestinoForm from './components/DestinoForm.jsx';
 import VehiculoForm from './components/VehiculoForm.jsx';
 import TipoTransporteForm from './components/TipoTransporteForm.jsx';
 import TiposTransporte from './pages/Administrador/TiposTransporte.jsx';
+import MisPasajes from './pages/Usuario/MisPasajes.jsx';
 
 export default function AppRouter() {
     return (
@@ -31,10 +32,15 @@ export default function AppRouter() {
           <Route path="/login" element={<Login />} />
           <Route path="/registrarse" element={<Register />} />
           <Route path="/restablecer" element={<Restablecer />} />
+
           {/* Redirige a login si no hay token */}
           <Route path="/" element={<Layout />}>
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="usuarioCliente/dashboard" element={<DashboardUsuario />} />
+            <Route path="usuarioCliente/mis-pasajes" element={<MisPasajes />} />
+
+
             {/* Usuarios con rutas hijas */}
             <Route path="usuarios" element={<Usuarios />}>
             {/* /usuarios/form  para crear */}
@@ -83,15 +89,11 @@ export default function AppRouter() {
               <Route path="form/:id" element={<PasajeForm />} />
             </Route>
 
-            {/* <Route path="metodopago" element={<MetodoPago />} />
-            <Route path="estatuspasaje" element={<EstatusPasaje />} /> */}
-
             {/* Rutas de usuario */}
             <Route path="usuarios" element={<Usuarios />}>
               <Route path="form" element={<UsuarioForm />} />
               <Route path="form/:id" element={<UsuarioForm />} />
             </Route>
-            {/* Puedes añadir más rutas de usuario aquí */}
           </Route>
 
       {/* Fallback */}

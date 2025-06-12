@@ -78,3 +78,77 @@
 .du-actions button:hover {
   opacity: 0.9;
 }
+
+/* --- Formulario de pasajero en compra (dentro de du-card) --- */
+
+.du-card h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.du-card input[type="text"],
+.du-card input[type="email"],
+.du-card input[type="number"],
+.du-card select {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--color-input-bg);
+  color: var(--color-text);
+}
+
+.du-card input[type="text"]::placeholder,
+.du-card input[type="email"]::placeholder,
+.du-card input[type="number"]::placeholder {
+  color: var(--color-text-muted);
+}
+
+.du-actions {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.du-actions input[type="text"],
+.du-actions select {
+  flex: 1;
+}
+
+.du-actions button {
+  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.du-actions button:hover {
+  opacity: 0.9;
+}
+
+/* --- Animación fade-in del form de pasajero --- */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.du-card .pasajero-form {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: rgba(16, 37, 64, 0.8); /* panel-bg con opacidad */
+  border: 1px solid var(--border);
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Los inputs dentro de .pasajero-form ya heredan los estilos previos */

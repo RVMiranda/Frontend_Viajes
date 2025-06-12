@@ -8,23 +8,28 @@ export default function DashboardUsuario() {
   const [selectedDestino, setSelectedDestino] = useState('')
   const [selectedTipo, setSelectedTipo]       = useState('')
   const [mensaje, setMensaje]     = useState('')
-  // estados por viaje:
-  const [asientos, setAsientos]   = useState({})
-  const [metodos, setMetodos]     = useState({})
+  const [metodosPago, setMetodosPago] = useState([])
+  const [loadingCompra, setLoadingCompra] = useState({})
+  const [showCompra, setShowCompra] = useState({})
+  const [asientos, setAsientos] = useState({})
+  const [metodos, setMetodos]   = useState({})
+  const [pasajeros, setPasajeros] = useState({}) // pasajero form por viajeId
 
   useEffect(() => {
     async function load() {
       try {
-        const [viajesRes, destRes, tipoRes] = await Promise.all([
-          client.get('viajes/?estado_viaje=1'),
+        const [viajesRes, destRes, tipoRes, metodosRes] = await Promise.all([
+          client.get('viajes/'),
           client.get('destinos/'),
           client.get('tipos-transporte/'),
+          client.get('metodos-pago/')
         ])
         setTrips(viajesRes.data)
         setFilters({
           destinos: destRes.data,
-          tipos:    tipoRes.data,
+          tipos:    tipoRes.data
         })
+        setMetodosPago(metodosRes.data)
       } catch (err) {
         console.error(err)
       }
@@ -32,18 +37,15 @@ export default function DashboardUsuario() {
     load()
   }, [])
 
-  // mapea cada viaje con sus objetos relacionados para mostrar nombres
   const displayTrips = trips
     .map(v => ({
       ...v,
-      origenObj:   filters.destinos.find(d => d.id === v.origen),
-      destinoObj:  filters.destinos.find(d => d.id === v.destino),
-      tipoObj:     filters.tipos.find(t => t.id === v.vehiculo),
+      tipoObj: filters.tipos.find(t => t.id === v.vehiculo.id)
     }))
     .filter(v => {
       return (
-        (!selectedDestino || v.destino === +selectedDestino) &&
-        (!selectedTipo    || v.vehiculo === +selectedTipo)
+        (!selectedDestino || v.destino.id === +selectedDestino) &&
+        (!selectedTipo    || v.vehiculo.id === +selectedTipo)
       )
     })
 
@@ -55,27 +57,83 @@ export default function DashboardUsuario() {
     setMetodos(prev => ({ ...prev, [id]: value }))
   }
 
-  const handleBuy = async (viajeId) => {
+  const handlePasajeroChange = (viajeId, field, value) => {
+    setPasajeros(prev => ({
+      ...prev,
+      [viajeId]: {
+        ...prev[viajeId],
+        [field]: value
+      }
+    }))
+  }
+
+  const handleShowCompra = (viajeId) => {
+    setShowCompra(prev => ({ ...prev, [viajeId]: true }))
+    setMensaje('')
+  }
+
+  const handleHideCompra = (viajeId) => {
+    setShowCompra(prev => ({ ...prev, [viajeId]: false }))
+    setMensaje('')
+  }
+
+  const handleBuy = async (viajeId, v) => {
     setMensaje('')
     const asiento     = asientos[viajeId]
     const metodoPago  = metodos[viajeId]
-    if (!asiento || !metodoPago) {
+    const pasajeroData = pasajeros[viajeId]
+
+    if (!pasajeroData?.nombre_completo || !pasajeroData?.documento_identidad || !pasajeroData?.correo_electronico || !pasajeroData?.telefono) {
+      setMensaje('Completa los datos del pasajero.')
+      return
+    }
+
+    if (!asiento?.trim() || !metodoPago) {
       setMensaje('Selecciona asiento y método de pago.')
       return
     }
+
     try {
+      // ACTIVAR LOADING:
+      setLoadingCompra(prev => ({ ...prev, [viajeId]: true }))
+
+      // 1️⃣ Registrar pasajero
+      const pasajeroRes = await client.post('pasajeros/', {
+        nombre_completo:      pasajeroData.nombre_completo,
+        documento_identidad:  pasajeroData.documento_identidad,
+        correo_electronico:   pasajeroData.correo_electronico,
+        telefono:             pasajeroData.telefono,
+        estado: true
+      })
+      const pasajeroId = pasajeroRes.data.id
+
+      // 2️⃣ Registrar pasaje
       await client.post('pasajes/', {
         viaje: viajeId,
+        pasajero: pasajeroId,
         numero_asiento: asiento,
+        precio_pagado: v.precio_base,
         metodo_pago: metodoPago,
-        estatus_pasaje: 1
+        estatus_pasaje: 1,
+        fecha_compra: new Date().toISOString(),
+        estado: true
       })
+
       setMensaje('¡Pasaje comprado correctamente!')
-      // opcional: refrescar o navegar
+
+      // Reset form
+      setAsientos(prev => ({ ...prev, [viajeId]: '' }))
+      setMetodos(prev => ({ ...prev, [viajeId]: '' }))
+      setPasajeros(prev => ({ ...prev, [viajeId]: {} }))
+      setShowCompra(prev => ({ ...prev, [viajeId]: false }))
     } catch {
       setMensaje('Error al comprar pasaje.')
+    } finally {
+      // DESACTIVAR LOADING:
+      setLoadingCompra(prev => ({ ...prev, [viajeId]: false }))
     }
   }
+
 
   return (
     <div className="du-container">
@@ -89,7 +147,7 @@ export default function DashboardUsuario() {
           <option value="">Todos los destinos</option>
           {filters.destinos.map(d => (
             <option key={d.id} value={d.id}>
-              {d.nombre}
+              {d.ciudad} ({d.codigo_terminal})
             </option>
           ))}
         </select>
@@ -101,7 +159,7 @@ export default function DashboardUsuario() {
           <option value="">Todos los transportes</option>
           {filters.tipos.map(t => (
             <option key={t.id} value={t.id}>
-              {t.tipo_transporte}
+              {t.nombre}
             </option>
           ))}
         </select>
@@ -113,39 +171,69 @@ export default function DashboardUsuario() {
         {displayTrips.map(v => (
           <div key={v.id} className="du-card">
             <div>
-              <strong>Origen:</strong>{' '}
-              {v.origenObj?.nombre || v.origen}<br/>
-              <strong>Destino:</strong>{' '}
-              {v.destinoObj?.nombre || v.destino}<br/>
-              <strong>Transporte:</strong>{' '}
-              {v.tipoObj?.tipo_transporte || v.vehiculo}<br/>
-              <strong>Salida:</strong>{' '}
-              {new Date(v.fecha_hora_salida).toLocaleString()}<br/>
-              <strong>Llegada:</strong>{' '}
-              {new Date(v.fecha_hora_llegada).toLocaleString()}<br/>
+              <strong>Origen:</strong> {v.origen.ciudad} ({v.origen.codigo_terminal})<br/>
+              <strong>Destino:</strong> {v.destino.ciudad} ({v.destino.codigo_terminal})<br/>
+              <strong>Transporte:</strong> {v.tipoObj?.nombre || v.vehiculo.id}<br/>
+              <strong>Salida:</strong> {new Date(v.fecha_hora_salida).toLocaleString()}<br/>
+              <strong>Llegada:</strong> {new Date(v.fecha_hora_llegada).toLocaleString()}<br/>
               <strong>Precio:</strong> ${Number(v.precio_base).toFixed(2)}
-
             </div>
 
-            <div className="du-actions">
-              <input
-                type="number"
-                min="1"
-                placeholder="Asiento #"
-                value={asientos[v.id] || ''}
-                onChange={e => handleAsientoChange(v.id, e.target.value)}
-              />
-              <select
-                value={metodos[v.id] || ''}
-                onChange={e => handleMetodoChange(v.id, e.target.value)}
-              >
-                <option value="">Método pago</option>
-                {/* podrías cargar esto desde un endpoint /metodo-pago/ */}
-                <option value="1">Tarjeta</option>
-                <option value="2">Efectivo</option>
-              </select>
-              <button onClick={() => handleBuy(v.id)}>Comprar</button>
-            </div>
+            {!showCompra[v.id] ? (
+              <button onClick={() => handleShowCompra(v.id)}>
+                Comprar
+              </button>
+            ) : (
+              <>
+                <div style={{ marginTop: '1rem' }}>
+                  <h4>Datos del pasajero</h4>
+                  <input
+                    type="text"
+                    placeholder="Nombre completo"
+                    value={pasajeros[v.id]?.nombre_completo || ''}
+                    onChange={e => handlePasajeroChange(v.id, 'nombre_completo', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Documento identidad"
+                    value={pasajeros[v.id]?.documento_identidad || ''}
+                    onChange={e => handlePasajeroChange(v.id, 'documento_identidad', e.target.value)}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Correo electrónico"
+                    value={pasajeros[v.id]?.correo_electronico || ''}
+                    onChange={e => handlePasajeroChange(v.id, 'correo_electronico', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Teléfono"
+                    value={pasajeros[v.id]?.telefono || ''}
+                    onChange={e => handlePasajeroChange(v.id, 'telefono', e.target.value)}
+                  />
+                </div>
+
+                <div className="du-actions">
+                  <input
+                    type="text"
+                    placeholder="Asiento #"
+                    value={asientos[v.id] || ''}
+                    onChange={e => handleAsientoChange(v.id, e.target.value)}
+                  />
+                  <select
+                    value={metodos[v.id] || ''}
+                    onChange={e => handleMetodoChange(v.id, e.target.value)}
+                  >
+                    <option value="">Método pago</option>
+                    {metodosPago.map(m => (
+                      <option key={m.id} value={m.id}>{m.descripcion}</option>
+                    ))}
+                  </select>
+                  <button onClick={() => handleBuy(v.id, v)}>Confirmar compra</button>
+                  <button onClick={() => handleHideCompra(v.id)}>Cancelar</button>
+                </div>
+              </>
+            )}
           </div>
         ))}
 

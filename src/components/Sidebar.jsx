@@ -19,8 +19,8 @@ export default function Sidebar() {
     { to: '/pasajeros',       label: 'Pasajeros',       allowedRoles: ['Administrador','Agente'] },
     { to: '/pasajes',        label: 'Pasajes',         allowedRoles: ['Administrador','Agente'] },
     // DashboardUsuario dentro de /usuario/dashboard:
-    { to: '/usuario/dashboard', label: 'Comprar Viaje', allowedRoles: ['Usuario'] },
-    { to: '/usuario/mis-viajes', label: 'Mis Compras',   allowedRoles: ['Usuario'] },
+    { to: '/usuarioCliente/dashboard', label: 'Comprar Viaje', allowedRoles: ['Usuario'] },
+    { to: '/usuarioCliente/mis-pasajes', label: 'Mis Compras',   allowedRoles: ['Usuario'] },
     // puedes añadir rutas de restablecer, perfil, etc., según necesites
   ]
 

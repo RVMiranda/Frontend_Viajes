@@ -36,7 +36,7 @@ export default function Login() {
       // 4) Redirigimos al dashboard u otra ruta protegida
       switch (user.rol.nombre) {
         case 'Usuario':
-          navigate('/usuario/dashboard')
+          navigate('/usuarioCliente/dashboard')
           break
         case 'Agente':
           navigate('/agente/dashboard')
@@ -67,6 +67,7 @@ export default function Login() {
       {/* Panel derecho: formulario */}
       <div className="login-panel form-panel">
         <form onSubmit={handleSubmit}>
+          <img src="/logo.png" alt="NahualTravel" className="sidebar-logo" />
           <h2>Log In</h2>
           {error && <div className="error">{error}</div>}
 

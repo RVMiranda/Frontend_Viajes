@@ -3,9 +3,9 @@
 }
 
 .layout-content {
-    margin-left: 240px;
+    margin-left: 170px;
     padding: 1.5rem;
-    width: calc(100% - 240px);
+    width: calc(100% - 2px);
     min-height: 100vh;
     background: var(--color-bg);
 }

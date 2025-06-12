@@ -1,7 +1,6 @@
 // src/components/UsuarioForm.jsx
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useOutletContext } from 'react-router-dom'
-// Ajusta la ruta: desde components hacia src/api
 import client from '../api/axiosClient'
 import '../styles/Usuarios.css'
 
@@ -16,31 +15,37 @@ export default function UsuarioForm() {
     rol:            '',
     estado:         true
   })
-  const [loading, setLoading] = useState(!!id)
+
+  const [roles, setRoles] = useState([])
+  const [loading, setLoading] = useState(true)
   const [error, setError]     = useState(null)
 
-  // Carga el usuario si hay id
   useEffect(() => {
-    if (!id) {
-      setLoading(false)
-      return
+    async function loadData() {
+      try {
+        // Cargamos los roles primero
+        const { data: rolesData } = await client.get('/roles')
+        setRoles(rolesData)
+
+        // Si estamos editando usuario
+        if (id) {
+          const { data: usuarioData } = await client.get(`/usuarios/${id}/`)
+          setForm({
+            nombre_usuario: usuarioData.nombre_usuario,
+            contrasena:     '',
+            rol:            usuarioData.rol.id,
+            estado:         usuarioData.estado
+          })
+        }
+      } catch (err) {
+        console.error(err)
+        setError('No se pudo cargar datos')
+      } finally {
+        setLoading(false)
+      }
     }
 
-    client
-      .get(`/usuarios/${id}/`)
-      .then(({ data }) => {
-        setForm({
-          nombre_usuario: data.nombre_usuario,
-          contrasena:     '',              // no mostramos la actual
-          rol:            data.rol.id,     // tomamos solo el id
-          estado:         data.estado
-        })
-      })
-      .catch(err => {
-        console.error(err)
-        setError('No se pudo cargar el usuario')
-      })
-      .finally(() => setLoading(false))
+    loadData()
   }, [id])
 
   function handleChange(e) {
@@ -56,9 +61,8 @@ export default function UsuarioForm() {
     try {
       const payload = {
         nombre_usuario: form.nombre_usuario,
-        // solo envía contraseña si el usuario la escribió
         ...(form.contrasena && { contrasena: form.contrasena }),
-        rol:    form.rol,
+        rol_id: form.rol,
         estado: form.estado
       }
 
@@ -115,8 +119,9 @@ export default function UsuarioForm() {
             required
           >
             <option value="">--Selecciona rol--</option>
-            <option value={1}>Administrador</option>
-            <option value={2}>Usuario</option>
+            {roles.map(r => (
+              <option key={r.id} value={r.id}>{r.nombre}</option>
+            ))}
           </select>
         </label>
 
