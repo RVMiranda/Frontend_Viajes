@@ -8,7 +8,7 @@ export default function Sidebar() {
 
   // 2) Lista completa con permisos
   const sections = [
-    { to: '/dashboard',      label: 'Dashboard',       allowedRoles: ['Administrador','Agente','Usuario'] },
+    { to: '/dashboard',      label: 'Dashboard',       allowedRoles: ['Administrador','Agente'] },
     { to: '/usuarios',       label: 'Usuarios',        allowedRoles: ['Administrador'] },
     { to: '/viajes',         label: 'Viajes',          allowedRoles: ['Administrador','Agente'] },
     { to: '/destinos',       label: 'Destinos',        allowedRoles: ['Administrador','Agente'] },
