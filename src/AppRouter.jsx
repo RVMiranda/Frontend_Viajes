@@ -17,6 +17,7 @@ import Restablecer from './pages/Auth/Restablecer.jsx';
 import ViajeForm from './components/ViajeForm.jsx';
 import DashboardUsuario from './pages/Usuario/Dashboard.jsx';
 import DestinoForm from './components/DestinoForm.jsx';
+import VehiculoForm from './components/VehiculoForm.jsx';
 
 export default function AppRouter() {
     return (
@@ -47,7 +48,11 @@ export default function AppRouter() {
               <Route path="form/:id" element={<DestinoForm />} />
             </Route>
 
-            <Route path="vehiculos" element={<Vehiculos />} />
+            <Route path="vehiculos" element={<Vehiculos />}>
+              <Route path="form" element={<VehiculoForm />} />
+              <Route path="form/:id" element={<VehiculoForm />} />
+            </Route>
+
             <Route path="rol" element={<Rol />} />
             <Route path="tipotransporte" element={<TipoTransporte />} />
             <Route path="estadoviaje" element={<EstadoViaje />} />
