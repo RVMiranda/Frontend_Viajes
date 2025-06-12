@@ -1,0 +1,83 @@
+/* src/styles/EstadoViaje.css */
+
+.estado-viaje-page {
+  padding: 2rem;
+  background: var(--bg-dark);
+  min-height: calc(100vh - 60px);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+
+.ev-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.ev-header h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.btn-new {
+  background: var(--accent);
+  color: var(--header-tx);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-new:hover {
+  background: var(--primary);
+}
+
+.ev-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.ev-table thead th {
+  background: var(--header-bg);
+  color: var(--header-tx);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.ev-table tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.ev-table tbody tr:nth-child(even) {
+  background: var(--row-alt);
+}
+
+.ev-table tbody tr:hover {
+  background: rgba(79, 142, 220, 0.2);
+}
+
+.ev-table button {
+  background: var(--primary);
+  color: var(--header-tx);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.ev-table button:hover {
+  background: var(--accent);
+}

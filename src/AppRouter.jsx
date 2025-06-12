@@ -9,8 +9,9 @@ import Viajes from './pages/Administrador/Viajes.jsx';
 import Destinos from './pages/Administrador/Destinos.jsx';
 import Vehiculos from './pages/Administrador/Vehiculos.jsx';
 import Rol from './pages/Administrador/Rol.jsx';
-import TipoTransporte from './pages/Administrador/TiposTransporte.jsx';
+import RolForm from './components/RolForm.jsx';
 import EstadoViaje from './pages/Administrador/EstadoViaje.jsx';
+import EstadoViajeForm from './components/EstadoViajeForm.jsx';
 import Pasajero from './pages/Administrador/Pasajero.jsx';
 import Pasajes from './pages/Administrador/Pasajes.jsx';
 import Restablecer from './pages/Auth/Restablecer.jsx';
@@ -18,6 +19,8 @@ import ViajeForm from './components/ViajeForm.jsx';
 import DashboardUsuario from './pages/Usuario/Dashboard.jsx';
 import DestinoForm from './components/DestinoForm.jsx';
 import VehiculoForm from './components/VehiculoForm.jsx';
+import TipoTransporteForm from './components/TipoTransporteForm.jsx';
+import TiposTransporte from './pages/Administrador/TiposTransporte.jsx';
 
 export default function AppRouter() {
     return (
@@ -43,6 +46,11 @@ export default function AppRouter() {
               <Route path="form/:id" element={<ViajeForm />} />
             </Route>
 
+            <Route path="tipotransporte" element={<TiposTransporte />}>
+              <Route path="form" element={<TipoTransporteForm />} />
+              <Route path="form/:id" element={<TipoTransporteForm />} />
+            </Route>
+
             <Route path="destinos" element={<Destinos />}>
               <Route path="form" element={<DestinoForm />} />
               <Route path="form/:id" element={<DestinoForm />} />
@@ -53,9 +61,16 @@ export default function AppRouter() {
               <Route path="form/:id" element={<VehiculoForm />} />
             </Route>
 
-            <Route path="rol" element={<Rol />} />
-            <Route path="tipotransporte" element={<TipoTransporte />} />
-            <Route path="estadoviaje" element={<EstadoViaje />} />
+            <Route path="rol" element={<Rol />}>
+              <Route path="form" element={<RolForm />} />
+              <Route path="form/:id" element={<RolForm />} />
+            </Route>
+
+            <Route path="estadoviaje" element={<EstadoViaje />}>
+              <Route path="form" element={<EstadoViajeForm />} />
+              <Route path="form/:id" element={<EstadoViajeForm />} />
+            </Route>
+
             <Route path="pasajero" element={<Pasajero />} />
             <Route path="pasajes" element={<Pasajes />} />
             {/* <Route path="metodopago" element={<MetodoPago />} />
