@@ -31,6 +31,7 @@ export default function Sidebar() {
 
   return (
     <nav className="sidebar">
+      <img src="/logo.png" alt="NahualTravel" className="sidebar-logo" />
       <h2 className="sidebar-title">Menú</h2>
       <ul className="sidebar-list">
         {menu.map(s => (

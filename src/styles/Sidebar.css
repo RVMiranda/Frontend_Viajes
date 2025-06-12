@@ -9,6 +9,11 @@
     padding: 1.5rem 1rem;
 }
 
+.sidebar-logo {
+    width: 100px;
+    height: auto;
+}
+
 .sidebar-title {
     margin-bottom: 2rem;
     font-size: 1.25rem;
