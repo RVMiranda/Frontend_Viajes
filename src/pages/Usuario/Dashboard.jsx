@@ -1,19 +1,20 @@
+// src/pages/Usuario/DashboardUsuario.jsx
 import { useEffect, useState } from 'react'
 import client from '../../api/axiosClient'
 import '../../styles/DashboardUsuario.css'
 
 export default function DashboardUsuario() {
-  const [trips, setTrips]         = useState([])
-  const [filters, setFilters]     = useState({ destinos: [], tipos: [] })
+  const [trips, setTrips] = useState([])
+  const [filters, setFilters] = useState({ destinos: [], tipos: [] })
   const [selectedDestino, setSelectedDestino] = useState('')
-  const [selectedTipo, setSelectedTipo]       = useState('')
-  const [mensaje, setMensaje]     = useState('')
+  const [selectedTipo, setSelectedTipo] = useState('')
+  const [mensaje, setMensaje] = useState('')
   const [metodosPago, setMetodosPago] = useState([])
   const [loadingCompra, setLoadingCompra] = useState({})
   const [showCompra, setShowCompra] = useState({})
   const [asientos, setAsientos] = useState({})
-  const [metodos, setMetodos]   = useState({})
-  const [pasajeros, setPasajeros] = useState({}) // pasajero form por viajeId
+  const [metodos, setMetodos] = useState({})
+  const [pasajeros, setPasajeros] = useState({})
 
   useEffect(() => {
     async function load() {
@@ -27,7 +28,7 @@ export default function DashboardUsuario() {
         setTrips(viajesRes.data)
         setFilters({
           destinos: destRes.data,
-          tipos:    tipoRes.data
+          tipos: tipoRes.data
         })
         setMetodosPago(metodosRes.data)
       } catch (err) {
@@ -45,7 +46,7 @@ export default function DashboardUsuario() {
     .filter(v => {
       return (
         (!selectedDestino || v.destino.id === +selectedDestino) &&
-        (!selectedTipo    || v.vehiculo.id === +selectedTipo)
+        (!selectedTipo || v.vehiculo.id === +selectedTipo)
       )
     })
 
@@ -79,8 +80,8 @@ export default function DashboardUsuario() {
 
   const handleBuy = async (viajeId, v) => {
     setMensaje('')
-    const asiento     = asientos[viajeId]
-    const metodoPago  = metodos[viajeId]
+    const asiento = asientos[viajeId]
+    const metodoPago = metodos[viajeId]
     const pasajeroData = pasajeros[viajeId]
 
     if (!pasajeroData?.nombre_completo || !pasajeroData?.documento_identidad || !pasajeroData?.correo_electronico || !pasajeroData?.telefono) {
@@ -94,21 +95,20 @@ export default function DashboardUsuario() {
     }
 
     try {
-      // ACTIVAR LOADING:
       setLoadingCompra(prev => ({ ...prev, [viajeId]: true }))
 
       // 1️⃣ Registrar pasajero
       const pasajeroRes = await client.post('pasajeros/', {
-        nombre_completo:      pasajeroData.nombre_completo,
-        documento_identidad:  pasajeroData.documento_identidad,
-        correo_electronico:   pasajeroData.correo_electronico,
-        telefono:             pasajeroData.telefono,
+        nombre_completo: pasajeroData.nombre_completo,
+        documento_identidad: pasajeroData.documento_identidad,
+        correo_electronico: pasajeroData.correo_electronico,
+        telefono: pasajeroData.telefono,
         estado: true
       })
       const pasajeroId = pasajeroRes.data.id
 
       // 2️⃣ Registrar pasaje
-      await client.post('pasajes/', {
+      const pasajeRes = await client.post('pasajes/', {
         viaje: viajeId,
         pasajero: pasajeroId,
         numero_asiento: asiento,
@@ -119,6 +119,23 @@ export default function DashboardUsuario() {
         estado: true
       })
 
+      const pasajeId = pasajeRes.data.id
+
+      // 3️⃣ Guardar en localStorage:
+      const user = JSON.parse(localStorage.getItem('user'))
+      const prevPasajes = JSON.parse(localStorage.getItem('pasajesComprados') || '[]')
+
+      const newPasajeObj = {
+        id: pasajeId,
+        usuarioId: user?.id,
+        fechaCompra: new Date().toISOString(),
+        viajeId: viajeId,
+        pasajeroId: pasajeroId
+      }
+
+      const newPasajes = [...prevPasajes, newPasajeObj]
+      localStorage.setItem('pasajesComprados', JSON.stringify(newPasajes))
+
       setMensaje('¡Pasaje comprado correctamente!')
 
       // Reset form
@@ -126,14 +143,13 @@ export default function DashboardUsuario() {
       setMetodos(prev => ({ ...prev, [viajeId]: '' }))
       setPasajeros(prev => ({ ...prev, [viajeId]: {} }))
       setShowCompra(prev => ({ ...prev, [viajeId]: false }))
-    } catch {
+    } catch (err) {
+      console.error(err)
       setMensaje('Error al comprar pasaje.')
     } finally {
-      // DESACTIVAR LOADING:
       setLoadingCompra(prev => ({ ...prev, [viajeId]: false }))
     }
   }
-
 
   return (
     <div className="du-container">
@@ -171,11 +187,11 @@ export default function DashboardUsuario() {
         {displayTrips.map(v => (
           <div key={v.id} className="du-card">
             <div>
-              <strong>Origen:</strong> {v.origen.ciudad} ({v.origen.codigo_terminal})<br/>
-              <strong>Destino:</strong> {v.destino.ciudad} ({v.destino.codigo_terminal})<br/>
-              <strong>Transporte:</strong> {v.tipoObj?.nombre || v.vehiculo.id}<br/>
-              <strong>Salida:</strong> {new Date(v.fecha_hora_salida).toLocaleString()}<br/>
-              <strong>Llegada:</strong> {new Date(v.fecha_hora_llegada).toLocaleString()}<br/>
+              <strong>Origen:</strong> {v.origen.ciudad} ({v.origen.codigo_terminal})<br />
+              <strong>Destino:</strong> {v.destino.ciudad} ({v.destino.codigo_terminal})<br />
+              <strong>Transporte:</strong> {v.tipoObj?.nombre || v.vehiculo.id}<br />
+              <strong>Salida:</strong> {new Date(v.fecha_hora_salida).toLocaleString()}<br />
+              <strong>Llegada:</strong> {new Date(v.fecha_hora_llegada).toLocaleString()}<br />
               <strong>Precio:</strong> ${Number(v.precio_base).toFixed(2)}
             </div>
 
@@ -229,7 +245,9 @@ export default function DashboardUsuario() {
                       <option key={m.id} value={m.id}>{m.descripcion}</option>
                     ))}
                   </select>
-                  <button onClick={() => handleBuy(v.id, v)}>Confirmar compra</button>
+                  <button onClick={() => handleBuy(v.id, v)}>
+                    {loadingCompra[v.id] ? 'Comprando...' : 'Confirmar compra'}
+                  </button>
                   <button onClick={() => handleHideCompra(v.id)}>Cancelar</button>
                 </div>
               </>

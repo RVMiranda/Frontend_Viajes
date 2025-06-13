@@ -33,7 +33,6 @@ export default function ViajeForm() {
   useEffect(() => {
     async function fetchAll() {
       try {
-        // origenes y destinos vienen del mismo endpoint /destinos/
         const [
           { data: origenes },
           { data: destinos },
@@ -84,17 +83,19 @@ export default function ViajeForm() {
     e.preventDefault()
     try {
       const payload = {
-        origen: form.origen,
-        destino: form.destino,
-        vehiculo: form.vehiculo,
+        origen_id: form.origen,
+        destino_id: form.destino,
+        vehiculo_id: form.vehiculo,
+        estado_viaje_id: form.estado_viaje,
         fecha_hora_salida: new Date(form.fecha_hora_salida).toISOString(),
         fecha_hora_llegada: new Date(form.fecha_hora_llegada).toISOString(),
         precio_base: form.precio_base,
-        estado_viaje: form.estado_viaje,
         estado: form.estado
       }
+
       if (id) await client.patch(`/viajes/${id}/`, payload)
       else    await client.post('/viajes/', payload)
+
       refresh()
       navigate('/viajes')
     } catch (err) {
