@@ -1,0 +1,11 @@
+.layout {
+    display: flex;
+}
+
+.layout-content {
+    margin-left: 170px;
+    padding: 1.5rem;
+    width: calc(100% - 2px);
+    min-height: 100vh;
+    background: var(--color-bg);
+}

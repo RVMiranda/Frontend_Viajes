@@ -1,0 +1,183 @@
+/* src/styles/Rol.css */
+
+/* --- Variables ya definidas en tu CSS global (:root) --- */
+
+/* Contenedor principal */
+.rol-page {
+  padding: 2rem;
+  background: var(--bg-dark);
+  min-height: calc(100vh - 60px);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Header */
+.rol-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.rol-header h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.btn-new {
+  background: var(--accent);
+  color: var(--header-tx);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-new:hover {
+  background: var(--primary);
+}
+
+/* Tabla de Roles */
+.rol-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.rol-table thead th {
+  background: var(--header-bg);
+  color: var(--header-tx);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.rol-table tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.rol-table tbody tr:nth-child(even) {
+  background: var(--row-alt);
+}
+
+.rol-table tbody tr:hover {
+  background: rgba(79, 142, 220, 0.2);
+}
+
+.rol-table button {
+  background: var(--primary);
+  color: var(--header-tx);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.rol-table button:hover {
+  background: var(--accent);
+}
+
+/* Formulario In-Page */
+.form-page {
+  background: var(--panel-bg);
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.form-page h2.form-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: var(--header-tx);
+}
+
+/* Campos del formulario */
+.usuario-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.usuario-form input,
+.usuario-form textarea {
+  width: 100%;
+  padding: 0.6rem;
+  margin-top: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+  background: var(--row-alt);
+  color: var(--text);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.usuario-form input:focus,
+.usuario-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(79, 142, 220, 0.1);
+}
+
+/* Checkbox */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.checkbox-label input {
+  margin-right: 0.5rem;
+}
+
+/* Acciones del formulario */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.form-actions button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.form-actions button[type="submit"] {
+  background: var(--accent);
+  color: var(--header-tx);
+}
+
+.form-actions button[type="submit"]:hover {
+  background: var(--primary);
+}
+
+.form-actions button[type="button"] {
+  background: var(--row-alt);
+  color: var(--text-muted);
+}
+
+.form-actions button[type="button"]:hover {
+  background: var(--border);
+}

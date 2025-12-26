@@ -1,0 +1,75 @@
+/* src/styles/Pasajeros.css */
+
+.pasajeros-page {
+  padding: 2rem;
+  background: var(--bg-dark);
+  min-height: calc(100vh - 60px);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+}
+
+.pasajeros-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.btn-new {
+  background: var(--accent);
+  color: var(--header-tx);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-new:hover {
+  background: var(--primary);
+}
+
+.pasajeros-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.pasajeros-table thead th {
+  background: var(--header-bg);
+  color: var(--header-tx);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.pasajeros-table tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.pasajeros-table tbody tr:nth-child(even) {
+  background: var(--row-alt);
+}
+
+.pasajeros-table tbody tr:hover {
+  background: rgba(79, 142, 220, 0.2);
+}
+
+.pasajeros-table button {
+  background: var(--primary);
+  color: var(--header-tx);
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.pasajeros-table button:hover {
+  background: var(--accent);
+}

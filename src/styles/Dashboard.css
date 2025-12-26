@@ -1,0 +1,90 @@
+/* src/styles/Dashboard.css - Dark Theme \*/
+
+/* Variables (asegúrate de tenerlas en \:root en tu CSS global) \*/
+:root {
+--bg-dark:    #0B1E3B;
+--panel-bg:   #102540;
+--row-alt:    #162D52;
+--accent:     #4F8EDC;
+--primary:    #3A6EA5;
+--text:       #E0E6F5;
+--text-muted: #A0A8B8;
+--border:     #1F3A60;
+--header-bg:  #1A3050;
+--header-tx:  #E0E6F5;
+}
+
+/* Contenedor principal \*/
+.dashboard-container {
+padding: 2rem;
+font-family: 'Inter', sans-serif;
+background: var(--bg-dark);
+min-height: 100vh;
+color: var(--text);
+}
+
+/* Tarjetas de métricas \*/
+.cards {
+display: flex;
+gap: 1.5rem;
+margin-bottom: 2rem;
+}
+
+.card {
+flex: 1;
+background: var(--panel-bg);
+border-radius: 0.5rem;
+padding: 1.5rem;
+box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+text-align: center;
+border: 1px solid var(--border);
+}
+
+.card-label {
+font-size: 0.9rem;
+color: var(--text-muted);
+margin-bottom: 0.5rem;
+}
+
+.card-value {
+font-size: 2rem;
+font-weight: 600;
+color: var(--text);
+}
+
+/* Contenedor del chart \*/
+.chart-wrapper {
+background: var(--panel-bg);
+border-radius: 0.5rem;
+padding: 1.5rem;
+box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+border: 1px solid var(--border);
+}
+
+.chart-wrapper h3 {
+margin-bottom: 1rem;
+color: var(--text);
+font-size: 1.25rem;
+font-weight: 600;
+}
+
+/* Estilos para Recharts \*/
+.chart-wrapper .recharts-cartesian-axis-tick-value,
+.chart-wrapper .recharts-tooltip-label,
+.chart-wrapper .recharts-tooltip-item-label {
+fill: var(--text) !important;
+}
+
+.chart-wrapper .recharts-tooltip-item-value {
+fill: var(--accent) !important;
+}
+
+/* Líneas y grid */
+.chart-wrapper .recharts-cartesian-grid line {
+stroke: var(--border) !important;
+}
+
+/* Barras \*/
+.chart-wrapper .recharts-bar-rectangle {
+fill: var(--accent) !important;
+}
